@@ -18,9 +18,17 @@ class get_numpy_include:
         return numpy.get_include()
 
 
+include_dirs=[get_numpy_include()]
+include_dirs.insert(0,"C:/Program Files/Azure Kinect SDK v1.4.1/sdk/include")
+include_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/include")
+
+library_dirs = ["C:/Program Files/Azure Kinect SDK v1.4.1/sdk/windows-desktop/amd64/release/lib"]
+library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/bin")
+library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/lib")
 k4a_module = Extension('k4a_module',
                        sources=['pyk4a/pyk4a.cpp'],
-                       include_dirs=[get_numpy_include()],
+                       include_dirs=include_dirs,
+                       library_dirs=library_dirs,
                        libraries=['k4a', 'k4arecord'])
 
 
@@ -29,7 +37,7 @@ class pyk4a_build_ext(build_ext):
     boolean_options = build_ext.boolean_options + ['enable-body-tracking', ]
 
     def initialize_options(self):
-        self.enable_body_tracking = False
+        self.enable_body_tracking = True
         build_ext.initialize_options(self)
 
     def finalize_options(self):
