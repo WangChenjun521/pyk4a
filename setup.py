@@ -62,6 +62,11 @@ def detect_and_insert_sdk_include_and_library_dirs(include_dirs, library_dirs) -
 include_dirs = [get_numpy_include()]
 library_dirs = []
 detect_and_insert_sdk_include_and_library_dirs(include_dirs, library_dirs)
+
+include_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/include")
+library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/bin")
+library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/lib")
+
 module = Extension(
     "k4a_module",
     sources=["pyk4a/pyk4a.cpp"],
