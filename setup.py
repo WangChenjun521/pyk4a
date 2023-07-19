@@ -67,7 +67,7 @@ include_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/inclu
 library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/bin")
 library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/lib")
 
-module = Extension(
+k4a_module = Extension(
     "k4a_module",
     sources=["pyk4a/pyk4a.cpp"],
     libraries=["k4a", "k4arecord"],
@@ -75,6 +75,27 @@ module = Extension(
     library_dirs=library_dirs,
 )
 
+class pyk4a_build_ext(build_ext):
+    user_options = build_ext.user_options + [('enable-body-tracking', None, 'Compile with body-tracking support'), ]
+    boolean_options = build_ext.boolean_options + ['enable-body-tracking', ]
+
+    def initialize_options(self):
+        self.enable_body_tracking = True
+        build_ext.initialize_options(self)
+
+    def finalize_options(self):
+        build_ext.finalize_options(self)
+
+    def build_extensions(self):
+        # modify k4a_module extension depending on arguments like "--enable-body-tracking"
+        assert k4a_module in self.extensions
+        if self.enable_body_tracking:
+            k4a_module.libraries.append('k4abt')
+            k4a_module.define_macros.append(('ENABLE_BODY_TRACKING', '1'))
+
+        build_ext.build_extensions(self)
+
 setup(
-    ext_modules=[module],
+    ext_modules=[k4a_module],
+    cmdclass={'build_ext': pyk4a_build_ext},
 )
