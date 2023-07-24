@@ -9,7 +9,11 @@ from typing import Tuple, Optional
 if sys.version_info[0] == 2:
     sys.exit("Python 2 is not supported.")
 
-# Enables --editable install with --user
+
+import platform
+system=platform.system()
+
+
 # https://github.com/pypa/pip/issues/7953
 import site
 
@@ -61,11 +65,17 @@ def detect_and_insert_sdk_include_and_library_dirs(include_dirs, library_dirs) -
 
 include_dirs = [get_numpy_include()]
 library_dirs = []
-detect_and_insert_sdk_include_and_library_dirs(include_dirs, library_dirs)
+if system == 'Windows':
+    detect_and_insert_sdk_include_and_library_dirs(include_dirs, library_dirs)
+    include_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/include")
+    library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/bin")
+    library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/lib")
 
-include_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/include")
-library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/bin")
-library_dirs.insert(0,"C:/Program Files/Azure Kinect Body Tracking SDK/sdk/windows-desktop/amd64/release/lib")
+elif system == 'Linux':
+    detect_and_insert_sdk_include_and_library_dirs(include_dirs, library_dirs)
+    include_dirs.insert(0,"/usr/local/include")
+    include_dirs.insert(0,"/usr/include")
+    library_dirs.insert(0,"/usr/local/lib")
 
 k4a_module = Extension(
     "k4a_module",
