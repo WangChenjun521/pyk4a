@@ -1471,10 +1471,10 @@ static PyObject* is_body_tracking_supported(PyObject* self,PyObject* args) {
                     buffer_pose[offset + 0] = skeleton.joints[joint_index].position.xyz.x;
                     buffer_pose[offset + 1] = skeleton.joints[joint_index].position.xyz.y;
                     buffer_pose[offset + 2] = skeleton.joints[joint_index].position.xyz.z;
-                    buffer_pose[offset + 3] = skeleton.joints[joint_index].orientation.wxyz.w;
-                    buffer_pose[offset + 4] = skeleton.joints[joint_index].orientation.wxyz.x;
-                    buffer_pose[offset + 5] = skeleton.joints[joint_index].orientation.wxyz.y;
-                    buffer_pose[offset + 6] = skeleton.joints[joint_index].orientation.wxyz.z;
+                    buffer_pose[offset + 3] = skeleton.joints[joint_index].orientation.wxyz.x;
+                    buffer_pose[offset + 4] = skeleton.joints[joint_index].orientation.wxyz.y;
+                    buffer_pose[offset + 5] = skeleton.joints[joint_index].orientation.wxyz.z;
+                    buffer_pose[offset + 6] = skeleton.joints[joint_index].orientation.wxyz.w;
                     buffer_pose[offset + 7] = (float) skeleton.joints[joint_index].confidence_level;
                     // convert to image positions
                     k4a_float2_t position_image;
